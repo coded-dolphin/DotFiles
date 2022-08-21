@@ -1,0 +1,8 @@
+#! /bin/bash
+
+sxhkd -c ~/.config/bspwm/sxhkdrc &
+xfce4-power-manager &
+nitrogen --restore &
+picom &
+volumeicon &
+$HOME/.config/polybar/launch.sh &

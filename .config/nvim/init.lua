@@ -1,0 +1,5 @@
+require('options')
+require('bindings')
+require('treesitter-config')
+require('plugins')
+require('whichkey-config')

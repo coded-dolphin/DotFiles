@@ -1,0 +1,40 @@
+#!/usr/bin/env bash
+
+DMEDITOR="st -e nvim"
+
+declare -a option=(
+"awesome - $HOME/.config/awesome/rc.lua"
+"bash - $HOME/.bashrc"
+"bspwm - $HOME/.config/bspwm/bspwmrc"
+"dmscripts - $HOME/dmscripts/dmconf"
+"dmenu - $HOME/suckless/dmenu/config.def.h"
+"st - $HOME/suckless/st/config.def.h"
+"dwm - $HOME/suckless/dwm/config.def.h"
+"i3 - $HOME/.config/i3/config"
+"picom - $HOME/.config/picom/picom.conf"
+"polybar - $HOME/.config/polybar/config"
+"rofi - $HOME/.config/rofi/config.rasi"
+"rofi-theme - $HOME/.config/rofi/themes"
+"sxhkd - $HOME/.config/sxhkd/sxhkdrc"
+"termite - $HOME/.config/termite/config"
+"xresources - $HOME/.Xresources"
+"xmonad - $HOME/.xmonad/xmonad.hs"
+"zsh - $HOME/.config/zsh/.zshrc"
+)
+
+  # Piping the above array (cleaned) into dmenu.
+  # We use "printf '%s\n'" to format the array one item to a line.
+  choice=$(printf '%s\n' "${option[@]}" | rofi -dmenu -i -l 10 -p 'Config:' )
+
+
+  # What to do when/if we choose a file to edit.
+  if [ "$choice" ]; then
+	  cfg=$(printf '%s\n' "${choice}" | awk '{print $NF}')
+    # shellcheck disable=SC2154
+    $DMEDITOR "$cfg"
+  # What to do if we just escape without choosing anything.
+  else
+      echo "Program terminated." && exit 1
+  fi
+
+

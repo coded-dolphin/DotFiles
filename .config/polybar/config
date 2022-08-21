@@ -1,0 +1,195 @@
+;==========================================================
+;   ██████╗  ██████╗ ██╗  ██╗   ██╗██████╗  █████╗ ██████╗
+;   ██╔══██╗██╔═══██╗██║  ╚██╗ ██╔╝██╔══██╗██╔══██╗██╔══██╗
+;   ██████╔╝██║   ██║██║   ╚████╔╝ ██████╔╝███████║██████╔╝
+;   ██╔═══╝ ██║   ██║██║    ╚██╔╝  ██╔══██╗██╔══██║██╔══██╗
+;   ██║     ╚██████╔╝███████╗██║   ██████╔╝██║  ██║██║  ██║
+;==========================================================
+
+[colors]
+background = #1a1b26
+background-alt = #9dd75d
+foreground = #c0caf5
+foreground-alt = #15161e
+primary = #ffb52a
+secondary = #e60053
+alert = #bd2c40
+
+[bar/polybar]
+width = 100%
+height = 20
+radius = 0
+
+background = ${colors.background}
+foreground = ${colors.foreground}
+
+line-size = 3
+line-color = #f00
+
+border-size = 0
+border-color = #00000000
+
+padding-left = 0
+padding-right = 0
+
+module-margin-left = 1
+module-margin-right = 1
+
+font-0 = "Hack Nerd Font:size=10;2"
+font-1 = "Symbols Nerd Font:size=10;2"
+font-2 = "FontAwesome:size=13;4"
+font-3 = "Hack Nerd Font:size=15;2"
+
+modules-left = xworkspaces xwindow
+modules-center = moc
+modules-right = eth pulseaudio battery date
+
+tray-position = none
+tray-padding = 2
+;tray-background = #0063ff
+
+wm-restack = bspwm
+;wm-restack = i3
+
+#override-redirect = true
+
+#scroll-up = bspwm-desknext
+#scroll-down = bspwm-deskprev
+
+;scroll-up = i3wm-wsnext
+;scroll-down = i3wm-wsprev
+
+#cursor-click = pointer
+#cursor-scroll = ns-resize
+
+[module/moc]
+type = custom/script
+interval = 1
+format-prefix = "  "
+format-prefix-background = #f7768e
+format-prefix-foreground = #15161e
+
+format-foreground = #abb2bf
+format-background = #414868
+
+exec = ~/.config/polybar/scripts/player-moc.sh 
+tail = true
+label= %{T3} %output% %{T-}
+
+click-left =  mocp -G
+
+format = <label>
+
+[module/xwindow]
+type = internal/xwindow
+label = %title:0:20:...%
+
+
+[module/xworkspaces]
+type = internal/xworkspaces
+
+label-active = %name%
+label-active-background = ${colors.background-alt}
+label-active-foreground = ${colors.foreground-alt}
+label-active-padding = 1
+
+label-occupied = %name%
+label-occupied-padding = 1
+
+label-urgent = %name%
+label-urgent-background = ${colors.alert}
+label-urgent-padding = 1
+
+label-empty = 
+label-empty-foreground = ${colors.disabled}
+label-empty-padding = 1
+
+
+[module/date]
+type = internal/date
+interval = 5
+
+format-prefix= "  "
+format-prefix-foreground = #000000
+format-prefix-background = #9dd75d
+
+time ="%I:%M %p "
+time-alt = %A
+
+format-foreground = #abb2bf
+format-background = #414868
+
+;label = %time%
+label= %{T3} %time% %{T-}
+
+[module/space]
+type = custom/text
+content = "  "
+
+[module/pulseaudio]
+type = internal/pulseaudio
+
+format-volume-prefix = "  " 
+format-volume-prefix-foreground = #15161e
+format-volume-prefix-background = #7aa2f7
+
+format-volume-foreground = #abb2bf
+format-volume-background = #414868
+
+label-volume= %{T3} %percentage% %{T-}
+
+format-muted-prefix =  "  "
+format-muted-prefix-foreground = #15161e
+format-muted-prefix-background = #f73156
+
+
+format-muted-foreground = #abb2bf
+format-muted-background = #414868
+
+label-muted= %{T3} MUTED %{T-}
+
+[module/battery]
+type = internal/battery
+battery = BAT0
+adapter = ADP1
+full-at = 98
+format-charging =  <label-charging>
+label-charging = %percentage:2%%
+format-charging-padding = 1
+format-charging-foreground = #abb2bf
+format-discharging = <label-discharging>
+label-discharging = " %percentage%%"
+format-discharging-foreground = #c0caf5
+format-discharging-background = #414868
+
+format-full-prefix = "   "
+format-full-prefix-foreground = #15161e
+format-full-prefix-background = #bb9af7
+
+format-full-foreground = #abb2bf
+format-full-background = #414868
+
+label-full= %{T3} %percentage%% %{T-}
+
+ramp-capacity-0 = " "
+ramp-capacity-1 = " "
+ramp-capacity-2 = " "
+ramp-capacity-3 = " "
+ramp-capacity-4 = " "
+ramp-capacity-0-foreground = #ff5555
+animation-charging-framerate = 910
+format-discharging-padding = 1
+
+[settings]
+screenchange-reload = true
+;compositing-background = xor
+;compositing-background = screen
+;compositing-foreground = source
+;compositing-border = over
+;pseudo-transparency = false
+
+[global/wm]
+margin-top = 0
+margin-bottom = 0
+
+; vim:ft=dosini
