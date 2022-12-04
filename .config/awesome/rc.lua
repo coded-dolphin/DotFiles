@@ -57,7 +57,7 @@ end
 beautiful.init(gears.filesystem.get_configuration_dir() .. "mytheme.lua")
 
 -- This is used later as the default terminal and editor to run.
-terminal = "st -e zsh"
+terminal = "alacritty -e zsh"
 editor = os.getenv("EDITOR") or "nano"
 editor_cmd = terminal .. " -e " .. editor
 
@@ -313,7 +313,7 @@ globalkeys = gears.table.join(
               {description = "restore minimized", group = "client"}),
 
     -- dmenu run Prompt
-    awful.key({ modkey },            "d",     function () 
+    awful.key({ modkey },            "r",     function () 
     awful.util.spawn ("dmenu_run -p 'run:'") end,
               {description = "dmenu", group = "launcher"}),
 
@@ -322,6 +322,10 @@ globalkeys = gears.table.join(
     awful.util.spawn ("firefox") end,
               {description = "firefox", group = "launcher"}),
 
+    awful.key({ modkey },            "e",     function () 
+    awful.util.spawn ("emacs") end,
+              {description = "emacs", group = "launcher"}),
+
 
     awful.key({ modkey, "Shift" },            "Return",     function () 
     awful.util.spawn ("nemo") end,
@@ -329,7 +333,7 @@ globalkeys = gears.table.join(
      
 
     -- Rofi
-    awful.key({ modkey }, "r", function() 
+    awful.key({ modkey }, "d", function() 
     awful.util.spawn ("rofi -show drun -show-icons -font 'Hack Nerd Font 13'") end,
               {description = "show the menubar", group = "launcher"})
 )

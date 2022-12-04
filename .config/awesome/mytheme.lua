@@ -13,7 +13,7 @@ local theme = {}
 
 theme.font          = "Hack Nerd Font 10"
 
-theme.bg_normal     = "#122023"
+theme.bg_normal     = "#1a1b26"
 theme.bg_focus      = "#afd9ff"
 theme.bg_urgent     = "#bf616a"
 theme.bg_minimize   = "#4c566a"
@@ -24,26 +24,21 @@ theme.fg_urgent     = "#d8dee9"
 theme.fg_minimize   = "#d8dee9"
 
 --BORDER & GAPS
-theme.useless_gap   = dpi(10)
-theme.border_width  = dpi(6)
+theme.useless_gap   = dpi(5)
+theme.border_width  = dpi(0)
 theme.border_normal = "#4d5874"
 theme.border_focus  = "#c8e6ff"
 theme.border_marked = "#4d5874"
 
 --TAGLISTS
-theme.taglist_bg_occupied = "#122023"
-theme.taglist_fg_occupied = "#efc8ff"
+theme.taglist_bg_occupied = "#1a1b26"
+theme.taglist_fg_occupied = "#565f89"
 
-theme.taglist_bg_focus = "#afc5ff"
+theme.taglist_bg_focus = "#9aa5ce"
 theme.taglist_fg_focus = "#10151b"
 
-theme.taglist_bg_empty = "#122023"
+theme.taglist_bg_empty = "#1a1b26"
 theme.taglist_fg_empty = "#ffffff"
-
-theme.bg_textclock = "#000000"
-
---SYSTRAY
-theme.bg_systray    = "#000000"
 
 -- There are other variable sets
 -- overriding the default one when
