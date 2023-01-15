@@ -1,3 +1,5 @@
+vim.cmd[[colorscheme tokyonight]]
+
 require("tokyonight").setup({
   -- use the night style
   style = "night",
@@ -12,5 +14,3 @@ require("tokyonight").setup({
     colors.error = "#ff0000"
   end
 })
-
-vim.cmd[[colorscheme tokyonight]]
