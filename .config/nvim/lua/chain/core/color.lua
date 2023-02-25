@@ -1,16 +1,10 @@
-vim.cmd[[colorscheme tokyonight]]
+local status, _ = pcall(vim.cmd, "colorscheme onedark")
+if not status then
+  print("Colorscheme not found!") -- print error if colorscheme not installed
+  return
+end
 
-require("tokyonight").setup({
-  -- use the night style
-  style = "night",
-  -- disable italic for functions
-  styles = {
-    functions = {}
-  },
-  sidebars = { "qf", "vista_kind", "terminal", "packer" },
-  -- Change the "hint" color to the "orange" color, and make the "error" color bright red
-  on_colors = function(colors)
-    colors.hint = colors.orange
-    colors.error = "#ff0000"
-  end
-})
+require('onedark').setup {
+    style = 'darker'
+}
+require('onedark').load()

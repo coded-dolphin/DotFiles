@@ -1,23 +1,23 @@
-local set = vim.opt
+local set = vim.opt --for ease of use
 
---linenumbers
-set.relativenumber = false
+-- line numbers
+set.relativenumber = true
 set.number = true
 
---tab & indentation
+-- tabbing and indenting
 set.tabstop = 2
 set.shiftwidth = 2
 set.expandtab = true
 set.autoindent = true
 
--- line wrap
+-- line wrapping
 set.wrap = false
 
---search
+-- search settings
 set.ignorecase = true
 set.smartcase = true
 
--- cursor line
+-- cursorline
 set.cursorline = true
 
 -- appearance
@@ -25,10 +25,6 @@ set.termguicolors = true
 set.background = "dark"
 set.signcolumn = "yes"
 
--- clipboard
-set.clipboard:append("unnamedplus")
-
 -- splits
-set.splitbelow = true
 set.splitright = true
-
+set.splitbelow = true

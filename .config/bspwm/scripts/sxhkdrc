@@ -21,7 +21,7 @@ super + shift + g
 	
 # terminal emulator
 super + Return
-	st
+	alacritty
 
 # program launcher
 super + d
@@ -138,3 +138,13 @@ super + alt + shift + {h,j,k,l}
 # move a floating window
 super + {Left,Down,Up,Right}
 	bspc node -v {-20 0,0 20,0 -20,20 0}
+
+# Media Keys
+XF86AudioRaiseVolume
+	/home/chain/.local/bin/volchange up
+
+XF86AudioLowerVolume
+	/home/chain/.local/bin/volchange down
+
+XF86AudioMute
+	/home/chain/.local/bin/volchange mute
