@@ -148,3 +148,6 @@ XF86AudioLowerVolume
 
 XF86AudioMute
 	/home/chain/.local/bin/volchange mute
+
+super + x
+  /home/chain/.local/bin/powermenu
