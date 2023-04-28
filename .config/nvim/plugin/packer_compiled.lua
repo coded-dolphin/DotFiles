@@ -119,6 +119,11 @@ _G.packer_plugins = {
     path = "/home/chain/.local/share/nvim/site/pack/packer/start/plenary.nvim",
     url = "https://github.com/nvim-lua/plenary.nvim"
   },
+  ["tabline.nvim"] = {
+    loaded = true,
+    path = "/home/chain/.local/share/nvim/site/pack/packer/start/tabline.nvim",
+    url = "https://github.com/kdheepak/tabline.nvim"
+  },
   ["vim-tmux-navigator"] = {
     loaded = true,
     path = "/home/chain/.local/share/nvim/site/pack/packer/start/vim-tmux-navigator",

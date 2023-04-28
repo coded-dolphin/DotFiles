@@ -26,6 +26,16 @@ if not status then
 	return
 end
 
+-- Have packer use a popup window
+packer.init({
+    display = {
+      open_fn = function()
+        return require('packer.util').float({ border = 'single' })
+      end
+    }
+  }
+)
+
 packer.startup(function(use)
 	use("wbthomason/packer.nvim") --packer itself
 	use("nvim-lua/plenary.nvim") -- many other plugins use this
@@ -48,6 +58,9 @@ packer.startup(function(use)
 
 	-- last place
 	use("ethanholz/nvim-lastplace")
+
+  -- tabline
+    use('kdheepak/tabline.nvim')
 
 	if packer_bootstrap then
 		require("packer").sync()

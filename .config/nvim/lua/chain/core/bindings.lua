@@ -5,15 +5,31 @@ vim.g.mapleader = " "
 
 --general keymaps 
 
+-- doing x will not copy in clip board
+map.set("n", "x", '"_x')
+
+-- Increment/decrement
+map.set('n', '+', '<C-a>')
+map.set('n', '-', '<C-x>')
+
+-- Split window
+map.set('n', 'ss', ':split<Return>') -- below
+map.set('n', 'sv', ':vsplit<Return>') -- side
+
+-- Resize window
+map.set('n', '<C-w><left>', '<C-w><')
+map.set('n', '<C-w><right>', '<C-w>>')
+map.set('n', '<C-w><up>', '<C-w>+')
+map.set('n', '<C-w><down>', '<C-w>-')
+
 --jk exit insert mode
 map.set("i", "jk", "<ESC>")
 
--- map.set("n", "<C-t>", ":tabnew<CR>")
--- map.set("n", "<tab>", ":tabn<CR>")
--- map.set("n", "<S-tab>", ":tabp<CR>")
--- map.set("n", "<C-w>", ":tabclose<CR>")
--- map.set("n", "<C-s>", ":w<CR>")
--- map.set("n", "x", '"_x"')
+map.set("n", "<C-t>", ":tabnew<CR>")
+map.set("n", "<tab>", ":tabn<CR>")
+map.set("n", "<S-tab>", ":tabp<CR>")
+map.set("n", "<C-w>", ":tabclose<CR>")
+map.set("n", "<C-s>", ":w<CR>")
 --
 -- -- Plugin Key Maps
 --

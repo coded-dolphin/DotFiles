@@ -2,12 +2,9 @@ require('lualine').setup {
   options = {
     icons_enabled = true,
     theme = 'solarized',
-    component_separators = '|',
+    component_separators = "|",
     section_separators = { left = '', right = '' },
-    disabled_filetypes = {
-      statusline = {},
-      winbar = {},
-    },
+    disabled_filetypes = {'packer', 'NvimTree'},
     ignore_focus = {},
     always_divide_middle = true,
     globalstatus = false,

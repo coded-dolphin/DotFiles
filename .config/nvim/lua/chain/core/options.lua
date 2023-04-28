@@ -7,7 +7,8 @@ set.number = true
 set.tabstop = 2
 set.shiftwidth = 2
 set.expandtab = true
-set.autoindent = true
+set.ai = true
+set.si = true
 
 --line warpping
 set.wrap = false
@@ -30,3 +31,6 @@ set.signcolumn = "yes"
 -- splits
 set.splitright = true
 set.splitbelow = true
+
+-- scrolloff
+set.scrolloff = 10
