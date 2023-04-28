@@ -7,10 +7,10 @@
 ;==========================================================
 
 [colors]
-background = #1a1b2600
-background-alt = #3306080a
-foreground = #c0caf5
-foreground-alt = #15161e
+background = #031a20
+background-alt = #268bd2
+foreground = #93a1a1
+foreground-alt = #fdf6e3
 primary = #ffb52a
 secondary = #e60053
 alert = #bd2c40
@@ -90,7 +90,7 @@ type = internal/xworkspaces
 
 label-active = %name%
 label-active-background = ${colors.background-alt}
-label-active-foreground = ${colors.foreground}
+label-active-foreground = ${colors.foreground-alt}
 label-active-padding = 1
 
 label-occupied = %name%
