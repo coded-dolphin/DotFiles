@@ -17,36 +17,30 @@ map.set('n', 'ss', ':split<Return>') -- below
 map.set('n', 'sv', ':vsplit<Return>') -- side
 
 -- Resize window
-map.set('n', '<C-w><left>', '<C-w><')
-map.set('n', '<C-w><right>', '<C-w>>')
-map.set('n', '<C-w><up>', '<C-w>+')
-map.set('n', '<C-w><down>', '<C-w>-')
-
---jk exit insert mode
-map.set("i", "jk", "<ESC>")
-
 map.set("n", "<C-t>", ":tabnew<CR>")
 map.set("n", "<tab>", ":tabn<CR>")
 map.set("n", "<S-tab>", ":tabp<CR>")
 map.set("n", "<C-w>", ":tabclose<CR>")
 map.set("n", "<C-s>", ":w<CR>")
---
--- -- Plugin Key Maps
---
--- -- Mzximize the current window
--- map.set("n", "<leader>mm", ":MaximizerToggle<CR>")
---
+
+--jk exit insert mode
+map.set("i", "jk", "<ESC>")
+
 -- Toggle file explorer
-  map.set("n","<leader>f", ":NvimTreeToggle<CR>")
---
--- -- Telescope keybindings
--- map.set("n", "<leader>ff", "<cmd>Telescope find_files<cr>") -- find files within current working directory, respects .gitignore
--- map.set("n", "<leader>fs", "<cmd>Telescope live_grep<cr>") -- find string in current working directory as you type
--- map.set("n", "<leader>fc", "<cmd>Telescope grep_string<cr>") -- find string under cursor in current working directory
--- map.set("n", "<leader>fb", "<cmd>Telescope buffers<cr>") -- list open buffers in current neovim instance
--- map.set("n", "<leader>fh", "<cmd>Telescope help_tags<cr>") -- list available help tags
---
---
+map.set("n","<C-f>", ":NvimTreeToggle<CR>")
+
+-- Select all
+map.set('n', '<C-a>', 'gg<S-v>G')
+
+
+-- Telescope keybindings
+map.set("n", "<leader>ff", "<cmd>Telescope find_files<cr>") -- find files within current working directory, respects .gitignore
+map.set("n", "<leader>fs", "<cmd>Telescope live_grep<cr>") -- find string in current working directory as you type
+map.set("n", "<leader>fc", "<cmd>Telescope grep_string<cr>") -- find string under cursor in current working directory
+map.set("n", "<leader>fb", "<cmd>Telescope buffers<cr>") -- list open buffers in current neovim instance
+map.set("n", "<leader>fh", "<cmd>Telescope help_tags<cr>") -- list available help tags
+
+
 ------------------------------------------------------------------------------------------------------
 -- disable arrow keys
 ------------------------------------------------------------------------------------------------------

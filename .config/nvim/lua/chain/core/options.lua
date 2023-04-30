@@ -1,5 +1,8 @@
 local set = vim.opt --ease of use
 
+-- Enable mouse
+set.mouse = "a"
+
 --line numbers
 set.number = true
 
@@ -12,6 +15,9 @@ set.si = true
 
 --line warpping
 set.wrap = false
+
+-- auto complete
+set.completeopt = "noinsert,menuone,noselect"
 
 -- search settings
 set.ignorecase = true
@@ -34,3 +40,14 @@ set.splitbelow = true
 
 -- scrolloff
 set.scrolloff = 10
+
+-- clipboard
+set.clipboard = "unnamedplus"
+
+-- hidden
+set.hidden = true
+
+-- swapfile
+set.swapfile = false
+
+set.wildmenu = true
