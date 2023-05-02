@@ -1,11 +1,14 @@
-wasddindow:
+window:
   padding:
     x: 10
     y: 10
   class:
     instance: Alacritty
     general: Alacritty
-  opacity: 1
+  opacity: 0.95
+
+env:
+  TERM: alacritty
 
 scrolling:
   history: 10000
@@ -24,7 +27,7 @@ font:
   bold_italic:
     family: JetBrainsMono Nerd Font
     style: Bold Italic
-  size: 7
+  size: 10
 draw_bold_text_with_bright_colors: true
 
 import:
