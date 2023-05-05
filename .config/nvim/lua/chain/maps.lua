@@ -27,11 +27,10 @@ map.set("n", "<C-s>", ":w<CR>")
 map.set("i", "jk", "<ESC>")
 
 -- Toggle file explorer
-map.set("n","<C-f>", ":NvimTreeToggle<CR>")
+map.set("n","<leader>e", vim.cmd.Ex)
 
 -- Select all
 map.set('n', '<C-a>', 'gg<S-v>G')
-
 
 -- Telescope keybindings
 map.set("n", "<leader>ff", "<cmd>Telescope find_files<cr>") -- find files within current working directory, respects .gitignore
@@ -52,9 +51,3 @@ keymap('n', '<Up>', '<Nop>', opts)
 keymap('n', '<Down>', '<Nop>', opts)
 keymap('n', '<Left>', '<Nop>', opts)
 keymap('n', '<Right>', '<Nop>', opts)
-
---  on Insert Mode
-keymap('i', '<Up>', '<Nop>', opts)
-keymap('i', '<Down>', '<Nop>', opts)
-keymap('i', '<Left>', '<Nop>', opts)
-keymap('i', '<Right>', '<Nop>', opts)

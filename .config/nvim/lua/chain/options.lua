@@ -51,3 +51,6 @@ set.hidden = true
 set.swapfile = false
 
 set.wildmenu = true
+
+vim.opt.hlsearch = false
+vim.opt.incsearch = true

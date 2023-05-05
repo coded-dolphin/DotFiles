@@ -16,7 +16,7 @@ local packer_bootstrap = ensure_packer() -- true if packer was just installed
 vim.cmd([[ 
   augroup packer_user_config
     autocmd!
-    autocmd BufWritePost plugins.lua source <afile> | PackerSync
+    autocmd BufWritePost packer.lua source <afile> | PackerSync
   augroup end
 ]])
 
@@ -46,15 +46,8 @@ packer.startup(function(use)
     requires = {"tjdevries/colorbuddy.nvim"}
   }
 
-  -- tokyo night
-  use 'folke/tokyonight.nvim'
-
   use("christoomey/vim-tmux-navigator") -- tmux & splits nav
   use("numToStr/Comment.nvim") -- comment with gc
-
-  -- Vs code like sidebar
-  use("nvim-tree/nvim-tree.lua")
-  use("nvim-tree/nvim-web-devicons")
 
   -- Beautiful status line
   use ("nvim-lualine/lualine.nvim")
@@ -65,7 +58,7 @@ packer.startup(function(use)
   -- tabline
   use {'akinsho/bufferline.nvim', tag = "*", requires = 'nvim-tree/nvim-web-devicons'}
 
-  -- syntax highlighting
+    -- syntax highlighting
     use({
     "nvim-treesitter/nvim-treesitter",
     run = function()
@@ -88,14 +81,31 @@ packer.startup(function(use)
   use({ "nvim-telescope/telescope-fzf-native.nvim", run = "make" }) -- dependency for better sorting performance
   use({ "nvim-telescope/telescope.nvim", branch = "0.1.x" }) -- fuzzy finder
 
+  use {
+	  'VonHeikemen/lsp-zero.nvim',
+	  branch = 'v1.x',
+	  requires = {
+		  -- LSP Support
+		  {'neovim/nvim-lspconfig'},
+		  {'williamboman/mason.nvim'},
+		  {'williamboman/mason-lspconfig.nvim'},
 
-  -- UI library
-  use("MunifTanjim/nui.nvim")
+		  -- Autocompletion
+		  {'hrsh7th/nvim-cmp'},
+		  {'hrsh7th/cmp-buffer'},
+		  {'hrsh7th/cmp-path'},
+		  {'saadparwaiz1/cmp_luasnip'},
+		  {'hrsh7th/cmp-nvim-lsp'},
+		  {'hrsh7th/cmp-nvim-lua'},
 
-  -- emmet
-  use ('mattn/emmet-vim')
+		  -- Snippets
+		  {'L3MON4D3/LuaSnip'},
+		  {'rafamadriz/friendly-snippets'},
+	  }
+  }
 
 	if packer_bootstrap then
 		require("packer").sync()
 	end
 end)
+
