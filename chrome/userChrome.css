@@ -5,39 +5,13 @@
 
 
 /*Auto Hide tabs if only one is present*/
+:root[sizemode="normal"] #nav-bar{ --uc-window-drag-space-width: 20px }
 
-:root{
-  --uc-menubar-vertical-overlap: 28px; /* adjust as necessary */
-}
 #titlebar{ -moz-appearance: none !important; }
-/* We'll use window controls from menubar instead */
-#TabsToolbar > .titlebar-buttonbox-container { display: none }
-/* Hide overflow button unless tabs overflow - is necessary for collpasing tabs with one tab */
-#tabbrowser-tabs:not([overflow="true"]) ~ #alltabs-button{ display: none }
+#TabsToolbar{ min-height: 0px !important }
 
 #tabbrowser-tabs,
 #tabbrowser-arrowscrollbox{ min-height: 0 !important; }
-
-#TabsToolbar > .titlebar-spacer[type="post-tabs"]{
-  width: calc(var(--uc-window-control-width,0px) + var(--uc-window-drag-space-post,0px)) !important;
-  -moz-box-ordinal-group: 2;
-}
-#toolbar-menubar > spacer{ pointer-events: none }
-
-:root:not([customizing]) #tabs-newtab-button{
-  -moz-appearance: none !important;
-  height: 0px;
-  padding-block: 0px !important;
-  -moz-box-align: stretch;
-  margin: 0 !important;
-}
-/* Need to hide private-browsing indicators, but you can still use privatemode_indicator_as_menu_button.css */
-#private-browsing-indicator,
-#private-browsing-indicator-with-label{
-  display: none;
-}
-
-#tabs-newtab-button{ transform: scale(0.8); border-radius: var(--tab-border-radius); }
 
 .accessibility-indicator,
 .private-browsing-indicator{ 
@@ -46,36 +20,66 @@
 .accessibility-indicator > hbox{ padding-block: 0 !important }
 
 .tabbrowser-tab{
-  height: calc(var(--tab-min-height) + 2 * var(--tab-block-margin));
+  height: calc(var(--tab-min-height) + 2 * var(--tab-block-margin,0px));
 }
+
+.tabbrowser-tab:only-of-type,
 .tabbrowser-tab[first-visible-tab="true"][last-visible-tab="true"]{
-  visibility: collapse;
+  visibility: collapse !important;
   min-height: 0 !important;
   height: 0;
 }
 
-/* Button re-styling */
-#tabs-newtab-button:hover,
-#tabbrowser-tabs .tabs-newtab-button:hover{ background-color: var(--toolbarbutton-hover-background) }
-
-#tabs-newtab-button > .toolbarbutton-icon,
-#tabbrowser-tabs .tabs-newtab-button > .toolbarbutton-icon{
-  padding: 0 !important;
-  transform: scale(0.6);
-  background-color: transparent !important;
+/* Fix window controls not being clickable */
+:root[tabsintitlebar] #toolbar-menubar[autohide="true"][inactive]{
+  transition: height 0ms steps(1) 80ms;
+}
+:where(#nav-bar){
+  border-inline: var(--uc-window-drag-space-width,0) solid var(--toolbar-bgcolor);
+}
+@media (-moz-platform: linux){
+  #TabsToolbar .titlebar-buttonbox{
+    -moz-box-align: stretch !important; /* Fx < 112 compatibility */
+    align-items: stretch !important;
+  }
+  #TabsToolbar > .titlebar-buttonbox-container > .titlebar-buttonbox > .titlebar-button{
+    transform: scale(0.8);
+    margin-inline: -3px !important;
+  }
+  #TabsToolbar .titlebar-button > .toolbarbutton-icon{ padding: 0 13px !important }
 }
 
-/* Window controls in nav-bar */
-:root[tabsintitlebar]:not([customizing]) #toolbar-menubar[inactive]{
-  height: initial !important;
-  min-height: initial !important;
-  margin-bottom: calc(0px - var(--uc-menubar-vertical-overlap,0px)) !important;
+#tabbrowser-tabs:not([overflowing="true"]) ~ #alltabs-button{
+  display: none;
 }
 
-:root:not([customizing]) #toolbar-menubar[autohide][inactive] > #menubar-items{ pointer-events: none; opacity: 0 }
-
-:root[sizemode="fullscreen"] #TabsToolbar > #window-controls{ z-index: 2; }
-.titlebar-buttonbox{ color: inherit }
+#tabbrowser-arrowscrollbox-periphery,
+#private-browsing-indicator-with-label,
+#TabsToolbar > .titlebar-buttonbox-container{
+  contain: strict;
+  contain-intrinsic-height: 0px;
+}
+#tabbrowser-arrowscrollbox-periphery{
+  contain-intrinsic-width: 36px;
+  padding-inline-end: 3px;
+}
+#private-browsing-indicator-with-label{
+  contain-intrinsic-width: 116px;
+}
+#TabsToolbar > .titlebar-buttonbox-container{
+  contain-intrinsic-width: var(--uc-window-control-width,138px);
+  margin-bottom: 0 !important;
+}
+@media  (-moz-platform: linux){
+  #TabsToolbar > .titlebar-buttonbox-container{
+    contain-intrinsic-width: var(--uc-window-control-width,105px);
+  }
+}
+@media  (-moz-platform: macos){
+  #TabsToolbar > .titlebar-buttonbox-container{
+    contain-intrinsic-width: var(--uc-window-control-width,72px);
+  }
+}
 
 /*Tabs below the url bar*/
 #toolbar-menubar[autohide="true"] > .titlebar-buttonbox-container,
@@ -130,3 +134,18 @@ toolbox#navigator-toolbox > toolbar#nav-bar.browser-toolbar{ animation: none; }
 
 /*Tabs fills all space*/
 .tabbrowser-tab[fadein]:not([style^="max-width"]){ max-width: 100vw !important }
+
+
+
+/* hide urlbar if not in focus */
+@namespace url("http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul");
+#navigator-toolbox:not(:focus-within):not(:hover) {
+  margin-top: -38px;
+}
+#navigator-toolbox:hover:not(:focus-within)
+{
+margin-top: -38px;
+}
+#navigator-toolbox {
+  transition: 0.2s margin-top ease-out;
+}
