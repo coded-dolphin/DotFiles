@@ -2,16 +2,13 @@
 #           .___
 #  ____   __| _/  Sarbagya Nepal (Coded-Dolphin)
 #_/ ___\ / __ |   https://www.youtube.com/coded-dolphin
-#\  \___/ /_/ |   https://gitlab.com/coded-dolphin
+#\  \___/ /_/ |   https://github.com/coded-dolphin
 # \___  >____ |   
 #     \/     \/   My zsh config nothing much to see here pretty standard stuff 
 #-----------------------------------------------------------------------------------------------------------------------------#
 
-#Vim binding for zsh
-#bindkey -v
-
 #Custom Prompt
-PROMPT='%F{blue} %F{red}| %F{blue}%1~%f %F{red} '
+PROMPT='%F{green} %F{red}| %F{blue}%3~%f %F{cyan}%f  '
 
 #Git Right Side Prompt:
 autoload -Uz vcs_info
@@ -33,7 +30,6 @@ export EDITOR='nvim'
 
 #Oh-my-zsh
 export ZSH=$HOME/.oh-my-zsh
-# ZSH_THEME="powerlevel10k/powerlevel10k"
 plugins=(git z zsh-autosuggestions zsh-syntax-highlighting)
 source $ZSH/oh-my-zsh.sh
 
@@ -54,8 +50,4 @@ SAVEHIST=10000
 setopt appendhistory
 
 #Start
-fm6000 -dog -c blue
-# neofetch
-
-# To customize prompt, run `p10k configure` or edit ~/.config/zsh/.p10k.zsh.
-[[ ! -f ~/.config/zsh/.p10k.zsh ]] || source ~/.config/zsh/.p10k.zsh
+neofetch

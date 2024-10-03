@@ -23,16 +23,11 @@
 # LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
-# -*- coding: utf-8 -*-
-import re
-import socket
-from libqtile import qtile
-from libqtile.config import Click, Drag, Group, KeyChord, Key, Match, Screen
-from libqtile.command import lazy
-from libqtile import layout, bar, widget, hook
+
+from libqtile import bar, layout, qtile, widget
+from libqtile.config import Click, Drag, Group, Key, Match, Screen
 from libqtile.lazy import lazy
-from libqtile.utils import guess_terminal
-from typing import List  # noqa: F401from typing import List  # noqa: F401
+from libqtile import hook
 
 import os
 import subprocess
@@ -42,11 +37,8 @@ def autostart():
     home = os.path.expanduser('~')
     subprocess.call([home + '/.config/qtile/autostart.sh'])
 
-
 mod = "mod4"
-terminal = "st"
-web = "firefox"
-
+terminal = "kitty"
 
 keys = [
     # A list of available commands that can be bound to keys can be found
@@ -81,284 +73,216 @@ keys = [
         desc="Toggle between split and unsplit sides of stack",
     ),
     Key([mod], "Return", lazy.spawn(terminal), desc="Launch terminal"),
-    Key([mod], "b", lazy.spawn(web), desc="launch firefox"),
+    Key([mod, "shift"], "s", lazy.spawn("flameshot gui"), desc="Launch flameshot"),
+    Key([mod], "b", lazy.spawn("firefox"), desc="Launch firefox"),
     # Toggle between different layouts as defined below
     Key([mod], "Tab", lazy.next_layout(), desc="Toggle between layouts"),
     Key([mod], "q", lazy.window.kill(), desc="Kill focused window"),
+    Key(
+        [mod],
+        "f",
+        lazy.window.toggle_fullscreen(),
+        desc="Toggle fullscreen on the focused window",
+    ),
+    Key([mod], "t", lazy.window.toggle_floating(), desc="Toggle floating on the focused window"),
     Key([mod, "shift"], "r", lazy.reload_config(), desc="Reload the config"),
     Key([mod, "shift"], "q", lazy.shutdown(), desc="Shutdown Qtile"),
-    Key([mod], "r", lazy.spawn("dmenu_run -p RUN: -h 22"), desc="Run dmenu"),
-    Key([mod], "d", lazy.spawn("rofi -show drun"), desc="Run rofi"),
-    Key([mod], "e", lazy.spawn("emacs"), desc="Run emacs"),
-    Key([mod, "shift"], "e", lazy.spawn("./projects/code/scripts/dmscripts/dmconf"), desc="Run edit config script"),
-    Key([mod], "n", lazy.spawn("nitrogen"), desc="Run nitrogen"),
-    Key([mod], "s", lazy.spawn("spotify"), desc="Run spotify"),
+    Key([mod], "d", lazy.spawn("rofi -show drun"), desc="Spawn a command using a prompt widget"),
 ]
 
-groups = [
-    Group("1", label="一"),
-    Group("2", label="二"),
-    Group("3", label="三"),
-    Group("4", label="四"),
-    Group("5", label="五"),
-    Group("6", label="六"),
-    Group("7", label="七"),
-    Group("8", label="八"),
-    Group("9", label="九"),
-]
+# Add key bindings to switch VTs in Wayland.
+# We can't check qtile.core.name in default config as it is loaded before qtile is started
+# We therefore defer the check until the key binding is run by using .when(func=...)
+for vt in range(1, 8):
+    keys.append(
+        Key(
+            ["control", "mod1"],
+            f"f{vt}",
+            lazy.core.change_vt(vt).when(func=lambda: qtile.core.name == "wayland"),
+            desc=f"Switch to VT{vt}",
+        )
+    )
 
 
-for i in groups:
+groups = [Group(i) for i in ["一", "二", "三", "四", "五", "六", "七", "八", "九"]]
+group_hotkeys = "123456789"
+
+for g, k in zip(groups, group_hotkeys):
     keys.extend(
         [
-            # mod1 + letter of group = switch to group
+            # mod + group number = switch to group
             Key(
                 [mod],
-                i.name,
-                lazy.group[i.name].toscreen(),
-                desc="Switch to group {}".format(i.name),
+                k,
+                lazy.group[g.name].toscreen(),
+                desc=f"Switch to group {g.name}",
             ),
-            # mod1 + shift + letter of group = switch to & move focused window to group
+            # mod + shift + group number = switch to & move focused window to group
             Key(
                 [mod, "shift"],
-                i.name,
-                lazy.window.togroup(i.name, switch_group=True),
-                desc="Switch to & move focused window to group {}".format(i.name),
+                k,
+                lazy.window.togroup(g.name, switch_group=False),
+                desc=f"Switch to & move focused window to group {g.name}",
             ),
             # Or, use below if you prefer not to switch to that group.
-            # # mod1 + shift + letter of group = move focused window to group
+            # # mod + shift + group number = move focused window to group
             # Key([mod, "shift"], i.name, lazy.window.togroup(i.name),
             #     desc="move focused window to group {}".format(i.name)),
         ]
     )
 
-layout_theme = {"border_width": 2,
-                "margin": 10,
-                "border_focus": "c678dd",
-                "border_normal": "1f2335"
-                }
-
+#color
+tokyonight = {
+    "black": "#1a1b26",
+    "white": "#c0caf5",
+    "pink": "#f7768e",
+    "green": "#9ece6a",
+    "yellow": "#e0af68",
+    "blue": "#7aa2f7",
+    "purple": "#bb9af7",
+    "cyan": "#7dcfff",
+    "grey": "#a9b1d6"
+        }
 
 layouts = [
-    # layout.Columns(border_focus_stack=["#d75f5f", "#8f3d3d"], border_width=0),
+    # layout.Columns(border_focus_stack=["#d75f5f", "#8f3d3d"], border_width=4),
     # layout.Max(),
     # Try more layouts by unleashing below layouts.
     # layout.Stack(num_stacks=2),
     # layout.Bsp(),
     # layout.Matrix(),
-    layout.MonadTall(**layout_theme),
-    layout.MonadWide(**layout_theme),
-    layout.Floating(),
+    # layout.MonadTall(),
+    # layout.MonadWide(),
     # layout.RatioTile(),
-    # layout.Tile(),
+    layout.MonadTall(border_focus="#3D3343", border_normal="#040C15", border_width=4, margin=10),
     # layout.TreeTab(),
     # layout.VerticalTile(),
     # layout.Zoomy(),
 ]
 
-colors = [["#1f2335", "#1f2335"],
-          ["#1c1f24", "#1c2023"],
-          ["#e28c37", "#e28c37"],
-          ["#47b27c", "#47b27c"],
-          ["#5c8c2c", "#5c8c2c"],
-          ["#4D87C1", "#4D87C1"],
-          ["#d45997", "#d45997"],
-          ["#4681bc", "#4681bc"],
-          ["#8abeb7", "#8abeb7"],
-          ["#ffffff", "#ffffff"]]
-
-prompt = "{0}@{1}: ".format(os.environ["USER"], socket.gethostname())
-
-
 widget_defaults = dict(
-    font="sans",
-    fontsize=12,
-    padding=3,
+    font="JetBrainsMono Nerd Font",
+    fontsize=16,
+    padding=2,
 )
 extension_defaults = widget_defaults.copy()
 
 screens = [
-    Screen(
-        top=bar.Bar(
-            [
-                widget.GroupBox(
-                       font = "Ubuntu Bold",
-                       fontsize = 10,
-                       margin_y = 3,
-                       margin_x = 0,
-                       padding_y = 5,
-                       padding_x = 3,
-                       borderwidth = 3,
-                       active = "#ffffff",
-                       inactive = "#a0a0a0",
-                       rounded = False,
-                       highlight_color = "#c678dd",
-                       highlight_method = "line",
-                       this_current_screen_border = "#c678dd",
-                       this_screen_border = colors [4],
-                       # other_current_screen_border = colors[6],
-                       # other_screen_border = colors[4],
-                       foreground = "#aaaaaa",
-                       background = "#1a1b26"
-                    ),
-
-                widget.TextBox(
-                       text='',
-                       font = "Ubuntu Mono",
-                       background = "1a1b26",
-                       foreground = "987747",
-                       padding = 0,
-                       fontsize = 22
-                       ),
-                widget.CurrentLayout(
-                foreground = "c0caf5",
-                background = "987747",
-                padding = 5
-                ),
-                widget.TextBox(
-                       text='',
-                       font = "Ubuntu Mono",
-                       background = "e0af68",
-                       foreground = "987747",
-                       padding = 0,
-                       fontsize = 22
-                       ),
-                 widget.CurrentLayoutIcon(
-                custom_icon_paths = [os.path.expanduser("~/.config/qtile/icons")],
-                foreground = "c0caf5",
-                background = "e0af68",
-                padding = 0,
-                scale = 0.7
-                ),
-                widget.TextBox(
-                       text='',
-                       font = "Ubuntu Mono",
-                       background = "1a1b26",
-                       foreground = "e0af68",
-                       padding = 0,
-                       fontsize = 22
-                       ),
-
-
-                widget.Prompt(),
-                widget.WindowName(background = "#1a1b26",foreground = "#aaaaaa"),
-                widget.Chord(
-                    chords_colors={
-                        "launch": ("#ff0000", "#ffffff"),
-                    },
-                    name_transform=lambda name: name.upper(),
-                ),
-
-              widget.TextBox(
-                       text='',
-                       font = "Ubuntu Mono",
-                       background = "1a1b26",
-                       foreground = "8edb99",
-                       padding = 0,
-                       fontsize = 22
-                       ),
-
-              widget.Battery(
-                      background = "8edb99",
-                      charge_char = '^',
-                      discharge_char = 'v',
-                      format = '{percent:2.0%} {char}',
-                      ),
-
-                widget.TextBox(
-                       text = '',
-                       font = "Ubuntu Mono",
-                       background = "8edb99",
-                       foreground = "7aa2f7",
-                       padding = 0,
-                       fontsize = 22
-                       ),
-
-               widget.Net(
-                   background ="7aa2f7",
-                   interface="wlp2s0b1",
-                   format = '{down} ↓↑ {up}',
-                   ),
-
-                widget.TextBox(
-                       text = '',
-                       font = "Ubuntu Mono",
-                       background = "7aa2f7",
-                       foreground = "bb9af7",
-                       padding = 0,
-                       fontsize = 22
-                       ),
-
-                   widget.Volume(
-                   foreground = "000000",
-                   background = "bb9af7",
-                   fmt = 'Vol: {}',
-                   padding = 5
-                   ),
-
-
-                widget.TextBox(
-                       text = '',
-                       font = "Ubuntu Mono",
-                       background = "bb9af7",
-                       foreground = "e0af68",
-                       padding = 0,
-                       fontsize = 22
-                       ),
-
-                widget.Clock(
-                    format="%I:%M %p",
-                    background="#e0af68"
-                    ),
-
-                widget.TextBox(
-                       text = '',
-                       font = "Ubuntu Mono",
-                       background = "e0af68",
-                       foreground = "9ece6a",
-                       padding = 0,
-                       fontsize = 22
-                       ),
-
-                widget.Clock(
-                    format="%Y-%m-%d",
-                    background="#9ece6a"
-                    ),
-
-                widget.TextBox(
-                       text = '',
-                       font = "Ubuntu Mono",
-                       background = "9ece6a",
-                       foreground = "414868",
-                       padding = 0,
-                       fontsize = 22
-                       ),
-
-                       widget.KeyboardLayout(
-                       foreground = "aaaaaa",
-                       background = "414868",
-                       fmt = 'Keyboard: {}',
-                       padding = 5
-                       ),
-
-                widget.TextBox(
-                       text = '',
-                       font = "Ubuntu Mono",
-                       background = "414868",
-                       foreground = "f7768e",
-                       padding = 0,
-                       fontsize = 22
-                       ),
-
-                widget.Systray(
-                        background = "#f7768e"
+        Screen(
+            top=bar.Bar(
+                [
+                    widget.GroupBox(
+                        disable_drag=True,
+                        highlight_method='line',
+                        this_current_screen_border=tokyonight["blue"],
+                        inactive=tokyonight["grey"],
+                        active=tokyonight["pink"],
+                        background=tokyonight["black"],
+                        # fontsize=20,
+                        padding=3,
+                        rounded=False,
                         ),
-                # widget.QuickExit(),
-            ],
-            22,
-            # border_width=[2, 0, 2, 0],  # Draw top and bottom borders
-            # border_color=["ff00ff", "000000", "ff00ff", "000000"]  # Borders are magenta
-        ),
+                    widget.TextBox(
+                        text="",
+                        padding=0,
+                        fontsize=26,
+                        foreground=tokyonight["pink"],
+                        background=tokyonight["black"],
+                        ),
+                    widget.CurrentLayout(
+                        background=tokyonight["pink"],
+                        ),
+                    widget.TextBox(
+                        text="",
+                        padding=0,
+                        fontsize=26,
+                        foreground=tokyonight["black"],
+                        background=tokyonight["pink"],
+                        ),
+                    widget.WindowName(
+                        forground=tokyonight["white"],
+                        background=tokyonight["black"],
+                        ),
+                    widget.Chord(
+                        chords_colors={
+                            "launch": ("#ff0000", "#ffffff"),
+                            },
+                        name_transform=lambda name: name.upper(),
+                        ),
+                    widget.TextBox(
+                        text='',
+                        background = tokyonight["black"],
+                        foreground = tokyonight["green"],
+                        padding = 0,
+                        fontsize = 25
+                        ),
+                    widget.Battery(
+                        background = tokyonight["green"],
+                        charge_char = '^',
+                        discharge_char = 'v',
+                        format = '{percent:2.0%} {char}',
+                        ),
+              widget.TextBox(
+                      text='',
+                      foreground = tokyonight["blue"],
+                      background = tokyonight["green"],
+                      padding = 0,
+                      fontsize = 25
+                      ),
+              widget.Wlan(
+                      interface="wlp0s20f3",  # Replace wlan0 with your Wi-Fi interface
+                      format='{essid}',  # Display SSID and signal strength
+                      disconnected_message='Disconnected',  # Message when no connection
+                      update_interval=5,  # Update every 5 seconds
+                      background = tokyonight["blue"],
+                      ),
+              widget.TextBox(
+                      text='',
+                      foreground = tokyonight["yellow"],
+                      background = tokyonight["blue"],
+                      padding = 0,
+                      fontsize = 25
+                      ),
+              widget.Clock(format="%I:%M %p", background=tokyonight["yellow"],),
+              widget.TextBox(
+                      text='',
+                      foreground = tokyonight["purple"],
+                      background = tokyonight["yellow"],
+                      padding = 0,
+                      fontsize = 25
+                      ),
+              widget.Clock(
+                      format="%A",
+                      background=tokyonight["purple"],
+                      ),
+              widget.TextBox(
+                      text='',
+                      foreground = tokyonight["cyan"],
+                      background = tokyonight["purple"],
+                      padding = 0,
+                      fontsize = 25
+                      ),
+              widget.PulseVolume(
+                      fmt='Vol: {}',  # Format: Display Volume with 'Vol: ' prefix
+                      limit_max_volume=True,  # Prevent volume from going over 100%
+                      volume_app="pavucontrol",  # App to launch on click (e.g., pavucontrol for volume settings)
+                      background = tokyonight["cyan"],
+                      ),
+              widget.TextBox(
+                      text='',
+                      foreground = tokyonight["grey"],
+                      background = tokyonight["cyan"],
+                      padding = 0,
+                      fontsize = 25
+                      ),
+              widget.Systray(
+                        background = tokyonight["grey"],
+                        ),
+                ],
+            30,
+            ),
+        wallpaper='~/Pictures/night.jpg',  # Path to your wallpaper
+        wallpaper_mode='fill',                    # Options: 'fill', 'stretch', 'tile'
     ),
 ]
 
@@ -370,9 +294,10 @@ mouse = [
 ]
 
 dgroups_key_binder = None
-dgroups_app_rules = []  # type: List
+dgroups_app_rules = []  # type: list
 follow_mouse_focus = True
 bring_front_click = False
+floats_kept_above = True
 cursor_warp = False
 floating_layout = layout.Floating(
     float_rules=[
@@ -393,6 +318,13 @@ reconfigure_screens = True
 # If things like steam games want to auto-minimize themselves when losing
 # focus, should we respect this or not?
 auto_minimize = True
+
+# When using the Wayland backend, this can be used to configure input devices.
+wl_input_rules = None
+
+# xcursor theme (string or None) and size (integer) for Wayland backend
+wl_xcursor_theme = None
+wl_xcursor_size = 24
 
 # XXX: Gasp! We're lying here. In fact, nobody really uses or cares about this
 # string besides java UI toolkits; you can see several discussions on the

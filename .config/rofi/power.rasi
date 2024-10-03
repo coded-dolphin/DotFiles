@@ -1,7 +1,0 @@
-nputbar {
-  children: [entry];
-}
-
-listview {
-	lines: 3;
-}

@@ -7,10 +7,5 @@ function run {
 }
 
 picom &
-nitrogen --restore &
-run volumeicon &
-nm-applet &
-spotifyd &
 flameshot &
 numlockx on &
-run pamac-tray &
