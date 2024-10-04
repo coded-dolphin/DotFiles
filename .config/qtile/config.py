@@ -32,6 +32,8 @@ from libqtile import hook
 import os
 import subprocess
 
+from libqtile.widget.base import PaddingMixin
+
 @hook.subscribe.startup
 def autostart():
     home = os.path.expanduser('~')
@@ -133,16 +135,16 @@ for g, k in zip(groups, group_hotkeys):
 
 #color
 tokyonight = {
-    "black": "#1a1b26",
-    "white": "#c0caf5",
-    "pink": "#f7768e",
-    "green": "#9ece6a",
-    "yellow": "#e0af68",
-    "blue": "#7aa2f7",
-    "purple": "#bb9af7",
-    "cyan": "#7dcfff",
-    "grey": "#a9b1d6"
-        }
+    "black": "#01060e",
+    "white": "#c7c7c7",
+    "pink": "#ea6c73",
+    "green": "#91b362",
+    "yellow": "#f9af2f",
+    "blue": "#53bdfa",
+    "purple": "#fae994",
+    "cyan": "#90e1c6",
+    "grey": "#686868",
+}
 
 layouts = [
     # layout.Columns(border_focus_stack=["#d75f5f", "#8f3d3d"], border_width=4),
@@ -154,7 +156,7 @@ layouts = [
     # layout.MonadTall(),
     # layout.MonadWide(),
     # layout.RatioTile(),
-    layout.MonadTall(border_focus="#3D3343", border_normal="#040C15", border_width=4, margin=10),
+    layout.MonadTall(border_focus="#3D3343", border_normal="#040C15", border_width=0, margin=10),
     # layout.TreeTab(),
     # layout.VerticalTile(),
     # layout.Zoomy(),
@@ -163,124 +165,63 @@ layouts = [
 widget_defaults = dict(
     font="JetBrainsMono Nerd Font",
     fontsize=16,
-    padding=2,
+    padding=10,
+    foreground=tokyonight["white"],
 )
 extension_defaults = widget_defaults.copy()
 
 screens = [
-        Screen(
-            top=bar.Bar(
-                [
-                    widget.GroupBox(
-                        disable_drag=True,
-                        highlight_method='line',
-                        this_current_screen_border=tokyonight["blue"],
-                        inactive=tokyonight["grey"],
-                        active=tokyonight["pink"],
-                        background=tokyonight["black"],
-                        # fontsize=20,
-                        padding=3,
-                        rounded=False,
-                        ),
-                    widget.TextBox(
-                        text="",
-                        padding=0,
-                        fontsize=26,
-                        foreground=tokyonight["pink"],
-                        background=tokyonight["black"],
-                        ),
-                    widget.CurrentLayout(
-                        background=tokyonight["pink"],
-                        ),
-                    widget.TextBox(
-                        text="",
-                        padding=0,
-                        fontsize=26,
-                        foreground=tokyonight["black"],
-                        background=tokyonight["pink"],
-                        ),
-                    widget.WindowName(
-                        forground=tokyonight["white"],
-                        background=tokyonight["black"],
-                        ),
-                    widget.Chord(
-                        chords_colors={
-                            "launch": ("#ff0000", "#ffffff"),
-                            },
-                        name_transform=lambda name: name.upper(),
-                        ),
-                    widget.TextBox(
-                        text='',
-                        background = tokyonight["black"],
-                        foreground = tokyonight["green"],
-                        padding = 0,
-                        fontsize = 25
-                        ),
-                    widget.Battery(
-                        background = tokyonight["green"],
-                        charge_char = '^',
-                        discharge_char = 'v',
-                        format = '{percent:2.0%} {char}',
-                        ),
-              widget.TextBox(
-                      text='',
-                      foreground = tokyonight["blue"],
-                      background = tokyonight["green"],
-                      padding = 0,
-                      fontsize = 25
-                      ),
-              widget.Wlan(
-                      interface="wlp0s20f3",  # Replace wlan0 with your Wi-Fi interface
-                      format='{essid}',  # Display SSID and signal strength
-                      disconnected_message='Disconnected',  # Message when no connection
-                      update_interval=5,  # Update every 5 seconds
-                      background = tokyonight["blue"],
-                      ),
-              widget.TextBox(
-                      text='',
-                      foreground = tokyonight["yellow"],
-                      background = tokyonight["blue"],
-                      padding = 0,
-                      fontsize = 25
-                      ),
-              widget.Clock(format="%I:%M %p", background=tokyonight["yellow"],),
-              widget.TextBox(
-                      text='',
-                      foreground = tokyonight["purple"],
-                      background = tokyonight["yellow"],
-                      padding = 0,
-                      fontsize = 25
-                      ),
-              widget.Clock(
-                      format="%A",
-                      background=tokyonight["purple"],
-                      ),
-              widget.TextBox(
-                      text='',
-                      foreground = tokyonight["cyan"],
-                      background = tokyonight["purple"],
-                      padding = 0,
-                      fontsize = 25
-                      ),
-              widget.PulseVolume(
-                      fmt='Vol: {}',  # Format: Display Volume with 'Vol: ' prefix
-                      limit_max_volume=True,  # Prevent volume from going over 100%
-                      volume_app="pavucontrol",  # App to launch on click (e.g., pavucontrol for volume settings)
-                      background = tokyonight["cyan"],
-                      ),
-              widget.TextBox(
-                      text='',
-                      foreground = tokyonight["grey"],
-                      background = tokyonight["cyan"],
-                      padding = 0,
-                      fontsize = 25
-                      ),
-              widget.Systray(
-                        background = tokyonight["grey"],
-                        ),
-                ],
-            30,
-            ),
+    Screen(
+        top=bar.Bar(
+            [
+                widget.GroupBox(
+                    disable_drag=True,
+                    highlight_method='line',
+                    this_current_screen_border=tokyonight["yellow"],
+                    inactive=tokyonight["grey"],
+                    active=tokyonight["white"],
+                    fontsize=16,
+                    padding=3,
+                    rounded=False,
+                ),
+                widget.TextBox(text="|", padding=0),  # Separator
+                widget.WindowName(
+                    forground=tokyonight["white"],
+                ),
+                widget.Chord(
+                    chords_colors={
+                        "launch": ("#ff0000", "#ffffff"),
+                    },
+                    name_transform=lambda name: name.upper(),
+                ),
+                widget.Clock(
+                    format="%I:%M %p",
+                ),
+                widget.TextBox(text="|", padding=0),  # Separator
+                widget.PulseVolume(
+                    fmt='Vol: {}',  # Format: Display Volume with 'Vol: ' prefix
+                    limit_max_volume=True,  # Prevent volume from going over 100%
+                    volume_app="pavucontrol",  # App to launch on click (e.g., pavucontrol for volume settings)
+                ),
+                widget.TextBox(text="|", padding=0),  # Separator
+                widget.Memory(
+                    measure_mem='G',
+                    format='Ram:{MemUsed: .2f}',
+
+                ),
+                widget.TextBox(text="|", padding=0),  # Separator
+                widget.Battery(
+                    charge_char = '+',
+                    discharge_char = '-',
+                    format = 'BAT: {percent:2.0%} {char}',
+                ),
+                widget.TextBox(text="|", padding=0),  # Separator
+                widget.Systray(),
+            ],
+            32,
+            margin = (10,10,0,10),
+            background = tokyonight["black"],
+        ),
         wallpaper='~/Pictures/night.jpg',  # Path to your wallpaper
         wallpaper_mode='fill',                    # Options: 'fill', 'stretch', 'tile'
     ),

@@ -7,5 +7,7 @@ function run {
 }
 
 picom &
-flameshot &
+run flameshot &
+run nm-applet &
+run volumeicon &
 numlockx on &
