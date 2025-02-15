@@ -1,0 +1,121 @@
+{
+    // Modules configuration
+    //"hyperland/workspaces": {
+    //  "disable-scroll": true,
+    //  "all-outputs": true,
+    //  "warp-on-scroll": false,
+    //  "format": "{icon}",
+    //  "format-icons": {
+    //    "1": "",
+    //    "2": "",
+    //    "3": "",
+    //    "4": "",
+    //    "5": "",
+    //    "urgent": "",
+    //    "focused": "",
+    //    "default": ""
+    //  }
+    //},
+    "hyprland/workspaces": {
+      "format": "{name}",
+      "format": "{icon}",
+      "tooltip": false,
+      "all-outputs": true,
+      "format-icons": {
+        "active": "",
+        "default": ""
+      }
+    },
+    "hyperland/scratchpad": {
+      "format": "{icon} {count}",
+      "show-empty": false,
+      "format-icons": ["", ""],
+      "tooltip": true,
+      "tooltip-format": "{app}: {title}"
+    },
+    "tray": {
+      "icon-size": 21,
+      "spacing": 10
+    },
+    "clock": {
+        "tooltip-format": "{:%A}",
+        "format-alt": "{:%Y-%m-%d}"
+    },
+    "group/stats": {
+      "orientation": "inherit",
+      "modules": [
+        "cpu",
+        "memory"
+      ]
+    },
+    "cpu": {
+      "format": "{usage}% ",
+      "tooltip": false
+    },
+    "memory": {
+      "format": "{}% ",
+      "tooltip-format": "storage used: {}%"
+    },
+
+    "battery": {
+      "states": {
+            "good": 95,
+            "warning": 30,
+            "critical": 15
+      },
+      "format": "{capacity}% {icon}",
+      "format-full": "{capacity}% {icon}",
+      "format-charging": "{capacity}% ",
+      "format-plugged": "{capacity}% ",
+      "format-alt": "{time} {icon}",
+        "format-icons": ["", "", "", "", ""],
+        "tooltip-format": "{capacity}%"
+    },
+    "network": {
+        // "interface": "wlp2*", // (Optional) To force the use of this interface
+        "format-wifi": " ",
+        "format-ethernet": "{ipaddr}/{cidr} ",
+        "tooltip-format": "{essid}",
+        "format-linked": "{ifname} (No IP) ",
+        "format-disconnected": "Disconnected ⚠",
+        "format-alt": "{essid}"
+    },
+    "pulseaudio": {
+        // "scroll-step": 1, // %, can be a float
+        "format": "{volume}% {icon}",
+        "format-bluetooth": "{volume}% {icon}",
+        "format-bluetooth-muted": " {icon}",
+        "format-muted": " ",
+        "format-icons": {
+          "headphone": "",
+          "hands-free": "",
+          "headset": "",
+          "phone": "",
+          "portable": "",
+          "car": "",
+          "default": ["", "", ""]
+        },
+        "on-click": "pavucontrol",
+      "tooltip-format": "VOL: {volume}%"
+    },
+    "group/setting":{
+      "orientation": "inherit",
+      "modules": [
+        "pulseaudio",
+        "network",
+        "battery"
+      ]
+    },
+    "custom/power": {
+      "format" : " ⏻ ",
+      "tooltip": false,
+      "menu": "on-click",
+      "menu-file": "$HOME/.config/waybar/power_menu.xml", // Menu file in resources folder
+      "menu-actions": {
+        "shutdown": "shutdown",
+        "reboot": "reboot",
+        "suspend": "systemctl suspend",
+        "hibernate": "systemctl hibernate"
+      }
+    }
+}
